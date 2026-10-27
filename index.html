@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Eric Kato: Solutions Engineering leader in the Bay Area. Experience, SE playbook and blog, plus golf reviews and dash-cam commentary.">
+<meta property="og:title" content="Eric Kato">
+<meta property="og:description" content="Solutions Engineering leader. SE playbook, blog, golf reviews and dash-cam commentary.">
+<meta property="og:type" content="website">
+<title>Eric Kato</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one person, two sides. A Work/Play switch swaps the page between a deal-desk look
+   (cool blue, pipeline-style metadata) and a weekend look (fairway green, road orange, scorecard metadata). */
+:root{
+  --bg:#f5f6f4; --surface:#ffffff; --fg:#1b2026; --muted:#5d6670; --line:#dde1e0;
+  --work:#2f5fd0; --work-soft:#e6ecfb;
+  --play:#2e7d4f; --play-soft:#e3f1e8;
+  --road:#c2571d; --road-soft:#f8e9df;
+  --accent:var(--work); --accent-soft:var(--work-soft);
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111418; --surface:#181c21; --fg:#e8ebee; --muted:#9aa3ad; --line:#2a3038;
+  --work:#7ea2ff; --work-soft:#1c2740; --play:#6cc490; --play-soft:#16291f; --road:#f0965f; --road-soft:#33221a;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#111418; --surface:#181c21; --fg:#e8ebee; --muted:#9aa3ad; --line:#2a3038;
+  --work:#7ea2ff; --work-soft:#1c2740; --play:#6cc490; --play-soft:#16291f; --road:#f0965f; --road-soft:#33221a;
+  color-scheme:dark }
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body.play{--accent:var(--play);--accent-soft:var(--play-soft)}
+*{box-sizing:border-box}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1080px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1}
+p{margin:0}
+ul{margin:0;padding-left:18px}
+.mono{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.label{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.sample{display:inline-block;font-family:var(--mono);font-size:.7rem;background:var(--accent-soft);color:var(--accent);padding:3px 8px;border-radius:4px}
+
+header{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding-block:24px 8px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.02em}
+.brand span{color:var(--accent)}
+.switch{display:inline-grid;grid-template-columns:1fr 1fr;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px}
+.switch button{font:600 .9rem var(--body);border:0;background:none;color:var(--muted);padding:8px 20px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+.switch button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+
+.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:40px;align-items:end;padding-block:48px 40px;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(2.3rem,5.6vw,4.2rem);font-weight:800;letter-spacing:-.035em}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{margin-top:18px;max-width:58ch;color:var(--muted);font-size:1.08rem}
+.facts{display:grid;gap:10px;font-family:var(--mono);font-size:.85rem;margin:0}
+.facts div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.facts dt{color:var(--muted)} .facts dd{margin:0;text-align:right}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:32px}
+.stats div{background:var(--surface);padding:16px 18px}
+.stats b{display:block;font-family:var(--display);font-size:1.8rem;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.stats span{font-size:.82rem;color:var(--muted)}
+
+section{padding-block:48px;border-bottom:1px solid var(--line)}
+.sec-head{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:baseline;margin-bottom:24px}
+.sec-head h2{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:700;letter-spacing:-.02em}
+
+.role{display:grid;grid-template-columns:130px minmax(0,1fr);gap:24px;padding-block:20px;border-top:1px solid var(--line)}
+.role:first-child{border-top:0}
+.role h3{font-size:1.15rem;font-weight:700}
+.role .org{color:var(--accent);font-weight:600}
+.role .title{font-weight:500;margin-top:2px}
+.role ul{color:var(--muted);margin-top:8px;max-width:70ch;display:grid;gap:4px;font-size:.95rem}
+.role .earlier{font-size:.85rem;color:var(--muted);margin-top:8px}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.skills span{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);background:var(--surface);padding:3px 9px;border-radius:4px;color:var(--muted)}
+
+.practices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.practice{background:var(--surface);padding:22px;display:flex;flex-direction:column;gap:10px}
+.practice h3{font-size:1.1rem;font-weight:700}
+.practice p{color:var(--muted);font-size:.95rem}
+.practice code{font-family:var(--mono);font-size:.74rem;background:var(--accent-soft);color:var(--accent);padding:2px 6px;border-radius:4px;align-self:flex-start}
+
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.filters button{font:500 .82rem var(--body);border:1px solid var(--line);background:var(--surface);color:var(--muted);padding:5px 12px;border-radius:999px;cursor:pointer}
+.filters button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.post{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:20px;align-items:baseline;padding-block:18px;border-top:1px solid var(--line)}
+.post h3{font-size:1.15rem;font-weight:700}
+.post p{color:var(--muted);font-size:.95rem;margin-top:4px;max-width:62ch}
+.post .tag{font-family:var(--mono);font-size:.72rem;color:var(--accent);white-space:nowrap}
+
+.subnav{display:flex;gap:24px;border-bottom:1px solid var(--line);margin-top:8px}
+.subnav button{font:700 1.05rem var(--display);background:none;border:0;border-bottom:3px solid transparent;padding:12px 0;color:var(--muted);cursor:pointer}
+.subnav button[aria-pressed="true"]{color:var(--fg);border-color:var(--accent)}
+.reviews{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.review{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.review h3{font-size:1.15rem;font-weight:700}
+.review p{color:var(--muted);font-size:.93rem}
+.review .top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.specs{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-family:var(--mono);font-size:.76rem;margin:0}
+.specs dt{color:var(--muted)} .specs dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+.verdict{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.85rem}
+.verdict div{display:flex;flex-direction:column;gap:2px}
+.verdict .label{font-size:.66rem}
+.score{display:flex;align-items:center;gap:10px;margin-top:auto;padding-top:10px;border-top:1px dashed var(--line)}
+.score b{font-family:var(--display);font-size:1.6rem;color:var(--accent);font-variant-numeric:tabular-nums}
+.bar{flex:1;height:6px;background:var(--accent-soft);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent)}
+
+.drives{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.drive{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.screen{position:relative}
+.screen canvas{display:block;width:100%;aspect-ratio:16/8;max-width:100%;background:var(--road-soft)}
+.hud{position:absolute;inset:10px 12px auto;display:flex;justify-content:space-between;font-family:var(--mono);font-size:.68rem;color:var(--road)}
+.hud .rec{display:flex;align-items:center;gap:6px}
+.hud .rec::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--road);animation:blink 1.4s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.drive .body{padding:18px;display:flex;flex-direction:column;gap:12px;flex:1}
+.drive h3{font-size:1.2rem;font-weight:700}
+.ep{font-family:var(--mono);font-size:.72rem;color:var(--road)}
+.commentary{display:grid;gap:8px;border-left:3px solid var(--road);padding-left:14px}
+.commentary p{font-size:.93rem}
+.commentary time{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-right:8px;font-variant-numeric:tabular-nums}
+.ratings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:auto}
+.ratings div{background:var(--road-soft);border-radius:6px;padding:8px 10px}
+.ratings b{display:block;font-family:var(--display);font-size:1.15rem;color:var(--road);font-variant-numeric:tabular-nums}
+.ratings span{font-size:.72rem;color:var(--muted);line-height:1.3;display:block}
+.drive-foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center;font-family:var(--mono);font-size:.76rem;color:var(--muted)}
+.watch{font:600 .85rem var(--body);color:var(--road);text-decoration:none;border:1px solid var(--road);padding:6px 12px;border-radius:6px}
+
+.contact{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center;padding-block:40px}
+.contact h2{font-size:1.6rem;font-weight:700}
+.links{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.links span{font-family:var(--mono);background:var(--surface);border:1px solid var(--line);padding:8px 12px;border-radius:6px;user-select:all}
+.links button{font:600 .85rem var(--body);background:var(--accent);color:var(--bg);border:0;padding:9px 14px;border-radius:6px;cursor:pointer}
+.links a{font:600 .85rem var(--body);border:1px solid var(--line);padding:8px 12px;border-radius:6px;text-decoration:none}
+footer{padding-block:20px 40px}
+
+.fade{animation:fade .35s ease both}
+@keyframes fade{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade,.hud .rec::before{animation:none}.switch button{transition:none}}
+
+@media (max-width:820px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:28px;padding-block:32px}
+  .practices,.reviews,.drives{grid-template-columns:minmax(0,1fr)}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .role,.post{grid-template-columns:minmax(0,1fr);gap:4px}
+}
+</style>
+
+<style>
+html{color-scheme:light}
+body{margin:0;-webkit-font-smoothing:antialiased}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">Eric Kato<span>.</span></div>
+  <div class="switch" role="group" aria-label="Choose a side">
+    <button id="btn-work" aria-pressed="true" data-side="work">Work</button>
+    <button id="btn-play" aria-pressed="false" data-side="play">Play</button>
+  </div>
+</header>
+
+<!-- ================= WORK ================= -->
+<main id="work" class="fade">
+  <div class="hero">
+    <div>
+      <p class="label">Solutions Engineering leader</p>
+      <h1>I build SE teams that <em>win the technical decision.</em></h1>
+      <p class="lead">20+ years in customer-facing technical roles, from individual contributor to Director of Solutions Engineering. I hire, coach and scale pre-sales teams across AdTech, MarTech, product analytics and enterprise software, and I write about what makes them work.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>based in</dt><dd>Bay Area, CA</dd></div>
+      <div><dt>most recently</dt><dd>Director SE, LiveRamp</dd></div>
+      <div><dt>spaces</dt><dd>AdTech · MarTech · Analytics</dd></div>
+      <div><dt>education</dt><dd>B.S. Computer Engineering, CWRU</dd></div>
+      <div><dt>also speaks</dt><dd>Japanese (minor)</dd></div>
+    </dl>
+  </div>
+  <div class="stats">
+    <div><b>20+</b><span>years in pre-sales</span></div>
+    <div><b>95%</b><span>technical win rate</span></div>
+    <div><b>$44M</b><span>book of business supported at LiveRamp</span></div>
+    <div><b>200%</b><span>of quota at IBM BPM</span></div>
+  </div>
+
+  <section id="experience">
+    <div class="sec-head"><h2>Experience</h2><span class="mono">8 companies · 3 acquisitions</span></div>
+    <div>
+      <div class="role"><div class="mono">2022 — 2026</div><div>
+        <h3><span class="org">LiveRamp</span> · San Francisco</h3><p class="title">Director, Solutions Engineering</p>
+        <ul><li>Hired and led strategic, enterprise and new-logo SE teams across travel, sports and entertainment, tech, healthcare, financial services and agencies.</li>
+        <li>Supported a $44M book of business across 18 AEs, 3 RVPs and a VP.</li>
+        <li>Put SE attribution and metric-based KPIs in place to measure SE impact across the business.</li>
+        <li>Built AI applications and agents that coach, enable and personalize GTM playbooks within live deals.</li></ul></div></div>
+      <div class="role"><div class="mono">2021 — 2022</div><div>
+        <h3><span class="org">Amplitude</span> · San Francisco</h3><p class="title">Director, Solutions Consulting</p>
+        <ul><li>Led Enterprise and Corporate SC teams of 11, and developed a new Corporate SC leader.</li>
+        <li>Supported a $30M book of business across 32 AEs and 4 RVPs.</li>
+        <li>Launched standard processes for technical sales, hiring and SC career paths.</li></ul></div></div>
+      <div class="role"><div class="mono">2019 — 2021</div><div>
+        <h3><span class="org">Optimizely</span> · San Francisco</h3><p class="title">Director, Solutions Engineering</p>
+        <ul><li>Grew scope from Digital to the North America and APAC regions, covering $30M+ ACV across 30+ AEs.</li>
+        <li>Owned SE and TAM for pre- and post-sales customer management, including a CS operations center of excellence.</li></ul></div></div>
+      <div class="role"><div class="mono">2018 — 2019</div><div>
+        <h3><span class="org">Demandbase</span> · San Francisco</h3><p class="title">Director, Sales Engineering</p>
+        <ul><li>Promoted from Senior SE to SE Manager to Director in under two years.</li>
+        <li>Ran a 15-person pre-sales org across Strategic, Enterprise and Mid-Market, backing 60+ sellers and $70M+ in quota.</li></ul></div></div>
+      <div class="role"><div class="mono">2016 — 2018</div><div>
+        <h3><span class="org">Gainsight</span> · Redwood City</h3><p class="title">Senior Solutions Consultant</p>
+        <ul><li>Led pre-sales for strategic accounts on an $8M quota and redesigned the pre-sales discovery process.</li></ul></div></div>
+      <div class="role"><div class="mono">2012 — 2016</div><div>
+        <h3><span class="org">Alfresco</span> · San Mateo</h3><p class="title">Manager, Solutions Engineering · previously Senior SE</p>
+        <ul><li>Doubled the SE team and managed 7 SEs across 3 sales orgs covering $11M+ in quota.</li>
+        <li>As Senior SE, covered the western US and earned President's Club (top 10%). Enablement work grew average deal size 30% and cut sales cycles 40%.</li></ul></div></div>
+      <div class="role"><div class="mono">2008 — 2012</div><div>
+        <h3><span class="org">IBM</span> · Bay Area &amp; Cleveland</h3><p class="title">Principal BPM Tech Sales</p>
+        <ul><li>Led technical sales for process, rules and event management on a $55M+ quota, finishing at 200%.</li>
+        <li>BPM expert and mentor for a 200+ person sales team and a 75+ person technical sales team.</li></ul>
+        <p class="earlier">Earlier: Senior Solutions Engineer, Lombardi Software (acquired by IBM, 2010)</p></div></div>
+      <div class="role"><div class="mono">2003 — 2008</div><div>
+        <h3><span class="org">Oracle</span> · Cleveland</h3><p class="title">Senior Sales Consultant</p>
+        <ul><li>Ran presentations, demos and proofs of concept for Fortune 100 companies.</li></ul>
+        <p class="earlier">Earlier: Senior Systems Engineer, BEA Systems (acquired by Oracle, 2008) · Solutions Consultant, Flashline (acquired by BEA, 2006)</p></div></div>
+    </div>
+  </section>
+
+  <section id="expertise">
+    <div class="sec-head"><h2>Expertise</h2></div>
+    <div class="skills">
+      <span>Servant leadership</span><span>Consultative pre-sales</span><span>Hiring &amp; talent development</span><span>Team building</span><span>Best practice programs</span><span>Scale &amp; growth initiatives</span><span>AdTech</span><span>MarTech</span><span>Product analytics</span><span>Experimentation</span><span>Account-based marketing</span><span>Customer success management</span><span>Enterprise content management</span><span>Business process management</span><span>Service-oriented architecture</span><span>Solution selling</span><span>Pre-sales / CS operations</span><span>Process standardization</span>
+    </div>
+  </section>
+
+  <section id="playbook">
+    <div class="sec-head"><h2>SE playbook</h2><span class="mono">practices from 20 years of technical selling</span></div>
+    <div class="practices">
+      <div class="practice"><code>discovery</code><h3>Earn the demo</h3><p>No demo before discovery. Know the business pain, the people who feel it, and what success looks like in their numbers.</p></div>
+      <div class="practice"><code>demo</code><h3>Show three things, not thirty</h3><p>Open with the outcome, show the few workflows that solve their stated pain, and stop. Every extra feature is a new objection.</p></div>
+      <div class="practice"><code>poc</code><h3>No POC without exit criteria</h3><p>Agree on written success criteria, a timeline and a decision date before any proof of concept starts.</p></div>
+      <div class="practice"><code>metrics</code><h3>Measure SE impact</h3><p>Track technical win rate, stage conversion and SE attribution so the team's value shows up in the forecast, not just in anecdotes.</p></div>
+      <div class="practice"><code>enablement</code><h3>Make the playbook reusable</h3><p>Turn what top SEs do into demo scripts, discovery guides and reference architectures the whole team can use.</p></div>
+      <div class="practice"><code>ai</code><h3>Put AI in the deal, not the slide</h3><p>Agents that prep account research, draft follow-ups and coach on discovery free SEs for the work only people can do.</p></div>
+    </div>
+  </section>
+
+  <section id="blog">
+    <div class="sec-head"><div style="display:grid;gap:6px"><h2>Blog</h2><span class="sample">Sample post ideas, replace with your own</span></div>
+      <div class="filters" id="blog-filters" role="group" aria-label="Filter posts">
+        <button id="f-all" aria-pressed="true" data-f="all">All</button>
+        <button id="f-disc" aria-pressed="false" data-f="Discovery">Discovery</button>
+        <button id="f-lead" aria-pressed="false" data-f="Leadership">Leadership</button>
+        <button id="f-ai" aria-pressed="false" data-f="AI in GTM">AI in GTM</button>
+      </div>
+    </div>
+    <div id="posts"></div>
+  </section>
+</main>
+
+<!-- ================= PLAY ================= -->
+<main id="play" class="fade" hidden>
+  <div class="hero">
+    <div>
+      <p class="label">Off the clock</p>
+      <h1>Fairways, gear, and <em>other drivers.</em></h1>
+      <p class="lead">Honest reviews of golf courses, clubs and accessories, plus a dash-cam log of Bay Area driving with play-by-play commentary on everyone who forgot their turn signal.</p>
+    </div>
+    <dl class="facts">
+      <div><dt>home turf</dt><dd>Bay Area, CA</dd></div>
+      <div><dt>golf reviews</dt><dd>Courses · Equipment · Accessories</dd></div>
+      <div><dt>drive log</dt><dd>Dash cam + color commentary</dd></div>
+      <div><dt>handicap</dt><dd>Add yours</dd></div>
+    </dl>
+  </div>
+
+  <div class="subnav" role="group" aria-label="Personal sections">
+    <button id="sub-golf" aria-pressed="true" data-sub="golf">Golf reviews</button>
+    <button id="sub-drive" aria-pressed="false" data-sub="drive">Dash cam</button>
+  </div>
+
+  <section id="golf">
+    <div class="sec-head"><div style="display:grid;gap:6px"><h2>Golf reviews</h2><span class="sample">Sample reviews, replace with your own</span></div>
+      <div class="filters" id="golf-filters" role="group" aria-label="Filter reviews">
+        <button id="g-all" aria-pressed="true" data-f="all">All</button>
+        <button id="g-course" aria-pressed="false" data-f="Course">Courses</button>
+        <button id="g-equip" aria-pressed="false" data-f="Equipment">Equipment</button>
+        <button id="g-acc" aria-pressed="false" data-f="Accessory">Accessories</button>
+      </div>
+    </div>
+    <div class="reviews" id="reviews"></div>
+  </section>
+
+  <section id="drive" hidden>
+    <div class="sec-head"><div style="display:grid;gap:6px"><h2>Dash cam</h2><span class="sample">Sample episodes, add your video links</span></div><span class="mono">play-by-play from the driver's seat</span></div>
+    <div class="drives" id="drives"></div>
+  </section>
+</main>
+
+<div class="contact">
+  <div><h2>Get in touch</h2><p class="mono">SE leadership, advising, speaking, or a tee time.</p></div>
+  <div class="links"><span id="addr">erickato@gmail.com</span><button id="copy">Copy email</button><a href="https://www.linkedin.com/in/erickato" target="_blank" rel="noopener">LinkedIn</a></div>
+</div>
+<footer class="mono">© 2026 Eric Kato</footer>
+</div>
+
+<script>
+const posts=[
+  {d:"Oct 2026",t:"AI in GTM",h:"What I learned building AI agents for an SE team",p:"Where agents saved real hours in deal prep, and where reps still needed a person."},
+  {d:"Oct 2026",t:"Discovery",h:"The five discovery questions I ask on every first call",p:"A short list that tells you whether there's a real deal and who decides it."},
+  {d:"Sep 2026",t:"Leadership",h:"Hiring SEs: what I screen for after 20 years",p:"Curiosity, composure in front of a skeptical buyer, and the ability to say no."},
+  {d:"Sep 2026",t:"Leadership",h:"How to prove SE value with numbers",p:"Attribution, technical win rate and the dashboard that changed our headcount conversation."},
+  {d:"Aug 2026",t:"Discovery",h:"Killing the feature tour demo",p:"Why the best demos are short, specific and built from the customer's own words."}
+];
+const reviews=[
+  {t:"Course",h:"Sample coastal links course",p:"Wind decides everything on the back nine. Greens roll true, and the views make up for a bad score.",
+   specs:[["par","72"],["yardage","6,850 (blue)"],["rating / slope","73.1 / 134"],["green fee","$180 wkd"]],good:"Ocean holes, pace of play",bad:"Price, fog delays",s:8.6},
+  {t:"Course",h:"Sample muni near home",p:"The best value in the area. Conditions vary by season but the layout is a good test.",
+   specs:[["par","71"],["yardage","6,420 (white)"],["rating / slope","70.8 / 125"],["green fee","$62 wkd"]],good:"Value, layout",bad:"Slow on weekends",s:7.8},
+  {t:"Equipment",h:"Sample game-improvement driver",p:"Forgiving on heel strikes and easy to launch. The stock shaft is better than expected.",
+   specs:[["loft","10.5°"],["shaft","Stiff, 60g"],["avg carry","238 yds"],["price","$549"]],good:"Forgiveness",bad:"Loud at impact",s:8.3},
+  {t:"Equipment",h:"Sample urethane tour ball",p:"Greenside spin close to premium balls at a lower price per dozen.",
+   specs:[["layers","3-piece"],["cover","Urethane"],["compression","~85"],["per dozen","$38"]],good:"Short-game spin",bad:"Scuffs off wedges",s:8.8},
+  {t:"Accessory",h:"Sample laser rangefinder",p:"Locks onto the flag fast, even with trees behind it. Slope mode is easy to toggle off for tournaments.",
+   specs:[["range","800 yds"],["accuracy","±1 yd"],["slope","Yes"],["price","$299"]],good:"Fast flag lock",bad:"Small eyepiece",s:9.0},
+  {t:"Accessory",h:"Sample stand bag",p:"Light enough for a full walking round with good pocket layout. The rain hood is an afterthought.",
+   specs:[["weight","4.6 lb"],["dividers","14-way"],["pockets","9"],["price","$249"]],good:"Weight, straps",bad:"Rain hood",s:7.6}
+];
+const drives=[
+  {ep:"Ep. 04",h:"The Bay Bridge Zipper Merge Olympics",date:"Oct 2026",mi:"14.2",dur:"0:41",seed:3,
+   lines:[["00:42","And the silver Camry enters the merge with confidence and zero use of the blinker. Bold strategy."],["03:15","Five lanes become two. Nobody has read the sign. Nobody ever reads the sign."],["07:58","A Tesla attempts a lane change on vibes alone. The judges are not impressed."]],
+   r:[["2/10","blinker usage"],["9/10","merge chaos"],["1","near-miss"]]},
+  {ep:"Ep. 03",h:"Highway 1 and the Sightseer Convoy",date:"Sep 2026",mi:"42.6",dur:"1:12",seed:7,
+   lines:[["01:10","Rental convertible doing 28 in a 55. They've seen a cow. We all have to see the cow now."],["12:40","Seventeen turnouts passed. Not one used. A new record."],["31:05","Finally around them. Gorgeous view. Worth the wait? Absolutely not."]],
+   r:[["0/10","turnout usage"],["10/10","scenery"],["28","top speed, mph"]]},
+  {ep:"Ep. 02",h:"Costco Parking Lot: A Survival Documentary",date:"Sep 2026",mi:"0.4",dur:"0:22",seed:11,
+   lines:[["00:20","A shopper parks diagonally across two spaces. A visionary."],["04:12","Someone has been waiting for that spot with the blinker on for three full minutes. Respect."],["09:30","Cart rolling free downhill. Nobody claims it. The cart is free now."]],
+   r:[["5/10","parking skill"],["8/10","patience"],["3","rogue carts"]]},
+  {ep:"Ep. 01",h:"Mount Diablo and the Cyclist Peloton",date:"Aug 2026",mi:"11.3",dur:"0:34",seed:5,
+   lines:[["02:05","Six cyclists, perfectly in formation. Passing them would be a crime. We wait."],["14:20","A minivan coming downhill takes the turn like it's Monaco."],["22:48","Summit reached. Cyclists arrived first somehow. They look smug. They earned it."]],
+   r:[["7/10","road manners"],["9/10","switchbacks"],["0","close calls"]]}
+];
+
+const $=s=>document.querySelector(s);
+function renderPosts(f){
+  $("#posts").innerHTML=posts.filter(x=>f==="all"||x.t===f).map(x=>
+    `<div class="post"><span class="mono">${x.d}</span><div><h3>${x.h}</h3><p>${x.p}</p></div><span class="tag">${x.t}</span></div>`).join("");
+}
+function renderReviews(f){
+  $("#reviews").innerHTML=reviews.filter(x=>f==="all"||x.t===f).map(x=>`<article class="review">
+    <div class="top"><span class="label">${x.t==="Accessory"?"Accessory":x.t}</span></div>
+    <h3>${x.h}</h3><p>${x.p}</p>
+    <dl class="specs">${x.specs.map(s=>`<dt>${s[0]}</dt><dd>${s[1]}</dd>`).join("")}</dl>
+    <div class="verdict"><div><span class="label">Liked</span>${x.good}</div><div><span class="label">Didn't</span>${x.bad}</div></div>
+    <div class="score"><b>${x.s.toFixed(1)}</b><div class="bar"><i style="width:${x.s*10}%"></i></div></div></article>`).join("");
+}
+function wireFilters(id,fn){
+  const bs=document.querySelectorAll(id+" button");
+  bs.forEach(b=>b.onclick=()=>{bs.forEach(x=>x.setAttribute("aria-pressed",x===b));fn(b.dataset.f)});
+}
+renderPosts("all"); renderReviews("all");
+wireFilters("#blog-filters",renderPosts); wireFilters("#golf-filters",renderReviews);
+
+$("#drives").innerHTML=drives.map((x,i)=>`<article class="drive">
+  <div class="screen"><canvas id="route-${i}" width="640" height="320" aria-hidden="true"></canvas>
+    <div class="hud"><span class="rec">REC</span><span>${x.mi} mi · ${x.dur}</span></div></div>
+  <div class="body"><span class="ep">${x.ep} · ${x.date}</span><h3>${x.h}</h3>
+    <div class="commentary">${x.lines.map(l=>`<p><time>${l[0]}</time>${l[1]}</p>`).join("")}</div>
+    <div class="ratings">${x.r.map(r=>`<div><b>${r[0]}</b><span>${r[1]}</span></div>`).join("")}</div>
+    <div class="drive-foot"><span>Video link coming soon</span><a class="watch" href="#drive">Watch episode</a></div>
+  </div></article>`).join("");
+
+function drawRoutes(){
+  const cs=getComputedStyle(document.documentElement);
+  const road=cs.getPropertyValue("--road").trim(), line=cs.getPropertyValue("--line").trim();
+  drives.forEach((x,i)=>{
+    const c=document.getElementById("route-"+i), g=c.getContext("2d"); g.clearRect(0,0,640,320);
+    g.strokeStyle=line; g.lineWidth=1;
+    for(let k=40;k<640;k+=40){g.beginPath();g.moveTo(k,0);g.lineTo(k,320);g.stroke()}
+    for(let k=40;k<320;k+=40){g.beginPath();g.moveTo(0,k);g.lineTo(640,k);g.stroke()}
+    let s=x.seed; const r=()=>((s=(s*9301+49297)%233280)/233280);
+    const pts=[]; let y=100+r()*140;
+    for(let px=40;px<=600;px+=40){y=Math.min(280,Math.max(60,y+(r()-.5)*90));pts.push([px,y])}
+    g.strokeStyle=road; g.lineWidth=5; g.lineCap="round"; g.lineJoin="round"; g.beginPath(); g.moveTo(...pts[0]);
+    for(let k=1;k<pts.length-1;k++){const mx=(pts[k][0]+pts[k+1][0])/2,my=(pts[k][1]+pts[k+1][1])/2;g.quadraticCurveTo(pts[k][0],pts[k][1],mx,my)}
+    g.lineTo(...pts[pts.length-1]); g.stroke();
+    g.fillStyle=road; [pts[0],pts[pts.length-1]].forEach(p=>{g.beginPath();g.arc(p[0],p[1],9,0,7);g.fill()});
+  });
+}
+
+function setSide(side){
+  document.body.classList.toggle("play",side==="play");
+  $("#work").hidden=side!=="work"; $("#play").hidden=side!=="play";
+  $("#btn-work").setAttribute("aria-pressed",side==="work");
+  $("#btn-play").setAttribute("aria-pressed",side==="play");
+  if(side==="play") drawRoutes();
+  try{localStorage.setItem("side",side)}catch(e){}
+}
+function setSub(sub){
+  $("#golf").hidden=sub!=="golf"; $("#drive").hidden=sub!=="drive";
+  $("#sub-golf").setAttribute("aria-pressed",sub==="golf");
+  $("#sub-drive").setAttribute("aria-pressed",sub==="drive");
+  if(sub==="drive") drawRoutes();
+}
+document.querySelectorAll(".switch button").forEach(b=>b.onclick=()=>setSide(b.dataset.side));
+document.querySelectorAll(".subnav button").forEach(b=>b.onclick=()=>setSub(b.dataset.sub));
+
+const h=location.hash.slice(1);
+if(["golf","drive","play"].includes(h)){setSide("play");setSub(h==="drive"?"drive":"golf")}
+else if(["work","experience","playbook","blog"].includes(h)){setSide("work")}
+else{let s="work";try{s=localStorage.getItem("side")||"work"}catch(e){}setSide(s)}
+
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",drawRoutes);
+new MutationObserver(drawRoutes).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+
+$("#copy").onclick=()=>{
+  const b=$("#copy");
+  navigator.clipboard.writeText($("#addr").textContent).then(()=>{b.textContent="Copied"},()=>{
+    const r=document.createRange();r.selectNodeContents($("#addr"));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);b.textContent="Selected";
+  });
+  setTimeout(()=>b.textContent="Copy email",1800);
+};
+</script>
+
+</body>
+</html>
